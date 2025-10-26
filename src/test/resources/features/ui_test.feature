@@ -7,6 +7,7 @@ Feature: Web UI Testing Example
     And navigate to "https://www.google.com"
     When type "Selenium automation" into "textarea[name='q']"
     And press enter on element "textarea[name='q']"
+    And wait for page load
     Then page should contain text "results"
 
   Scenario: Verify page elements

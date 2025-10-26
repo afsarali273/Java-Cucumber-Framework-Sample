@@ -31,29 +31,62 @@ SampleTestProject/
 
 ## Running Tests
 
-### Run All Tests
+### Local Development (TestNG Runner)
+
+For local development and debugging, use the TestNG runner:
+
+#### Run All Tests
 ```bash
 mvn clean test
 ```
 
-### Run Only UI Tests
+#### Run Only UI Tests
 ```bash
 mvn test -Dcucumber.filter.tags="@UI"
 ```
 
-### Run Only API Tests
+#### Run Only API Tests
 ```bash
 mvn test -Dcucumber.filter.tags="@API"
 ```
 
-### Run with Specific Browser
+#### Run with Specific Browser
 ```bash
 mvn test -Dbrowser=firefox
 ```
 
-### Run in Headless Mode
+#### Run in Headless Mode
 ```bash
 mvn test -Dheadless=true
+```
+
+### CI Pipeline (Cucumber CLI Runner)
+
+For CI/CD pipelines, use the CLI runner for better control and performance:
+
+#### Run All Tests (CI)
+```bash
+mvn clean compile test-compile exec:java -Dexec.mainClass="com.sample.tests.CucumberCLIRunner"
+```
+
+#### Run with Tags (CI)
+```bash
+mvn exec:java -Dexec.mainClass="com.sample.tests.CucumberCLIRunner" -Dcucumber.filter.tags="@UI" -Dthread_count=5
+```
+
+#### Run with Profile (CI)
+```bash
+mvn clean test -Pcucumber-cli -Dcucumber.filter.tags="@API" -Dthread_count=3
+```
+
+#### CI Pipeline Examples
+```yaml
+# GitHub Actions / Jenkins
+- name: Run UI Tests
+  run: mvn exec:java -Dexec.mainClass="com.sample.tests.CucumberCLIRunner" -Dcucumber.filter.tags="@UI" -Dheadless=true -Dthread_count=4
+
+- name: Run API Tests  
+  run: mvn exec:java -Dexec.mainClass="com.sample.tests.CucumberCLIRunner" -Dcucumber.filter.tags="@API" -Dthread_count=6
 ```
 
 ## Configuration
